@@ -27,7 +27,7 @@ public class Activity {
     public Activity() {
     }
 
-    public Activity(int id, String work_category, Integer hours, Integer minutes,String description, Integer form_id) {
+    public Activity(int id, String work_category, Integer hours, Integer minutes, String description, Integer form_id) {
         this.id = id;
         this.work_category = work_category;
         this.hours = hours;
@@ -36,7 +36,7 @@ public class Activity {
         this.form_id = form_id;
     }
 
-    public Activity(String work_category, Integer hours, Integer minutes,String description, Integer form_id) {
+    public Activity(String work_category, Integer hours, Integer minutes, String description, Integer form_id) {
         this.work_category = work_category;
         this.hours = hours;
         this.minutes = minutes;
@@ -83,4 +83,13 @@ public class Activity {
     public void setForm_id(Integer form_id) {
         this.form_id = form_id;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
 }

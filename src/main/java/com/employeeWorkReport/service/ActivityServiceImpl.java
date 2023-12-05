@@ -22,13 +22,22 @@ public class ActivityServiceImpl implements ActivityService {
     }
 
     @Override
-    public List<CategoryReport> getActivitySummaryForUserIdsAndDateRange(List<Integer> userIdList , String startDate , String endDate ){
-        try{
-            return activityRepository.getActivitySummaryForUserIdsAndDateRange(userIdList, startDate , endDate);
-        }
-        catch(Exception e){
+    public List<CategoryReport> getActivitySummaryForUserIdsAndDateRange(List<Integer> userIdList, String startDate,
+            String endDate) {
+        try {
+            return activityRepository.getActivitySummaryForUserIdsAndDateRange(userIdList, startDate, endDate);
+        } catch (Exception e) {
             System.out.println("issue in repo");
             System.out.println(e.getMessage());
+            throw e;
+        }
+    }
+
+    @Override
+    public List<Activity> getActivitySummaryForTheDay(Integer userId, String date) {
+        try {
+            return activityRepository.getActivitySummaryForTheDay(userId, date);
+        } catch (Exception e) {
             throw e;
         }
     }

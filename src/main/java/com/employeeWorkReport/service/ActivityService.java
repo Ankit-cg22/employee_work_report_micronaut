@@ -7,7 +7,13 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.UIDefaults.ActiveValue;
+
 public interface ActivityService {
     Activity createActivity(Activity activity);
-    List<CategoryReport> getActivitySummaryForUserIdsAndDateRange(List<Integer> userIdList , String startDate , String endDate );
+
+    List<CategoryReport> getActivitySummaryForUserIdsAndDateRange(List<Integer> userIdList, String startDate,
+            String endDate);
+
+    List<Activity> getActivitySummaryForTheDay(Integer userId, String date);
 }
