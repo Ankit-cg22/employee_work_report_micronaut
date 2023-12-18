@@ -27,32 +27,34 @@ public class FormController {
     }
 
     @Post("/createForm")
-    public HttpResponse<Map<String , Object>> createFormEntry(@Body Map<String , Object> requestBody){
+    public HttpResponse<Map<String, Object>> createFormEntry(@Body Map<String, Object> requestBody) {
         Integer userId = (Integer) requestBody.get("userId");
-        Date date = Constants.stringToDate((String)requestBody.get("date"));
-        Form form = formService.createForm(userId , date);
+        Date date = Constants.stringToDate((String) requestBody.get("date"));
+        Form form = formService.createForm(userId, date);
         return HttpResponse.created(formObjectToMap(form));
     }
 
     @Get("/getForm/{formId}")
-    public HttpResponse<Map<String , Object>> getFormById(@PathVariable("formId") Integer formId){
+    public HttpResponse<Map<String, Object>> getFormById(@PathVariable("formId") Integer formId) {
         System.out.println(formId);
-        try{
+        try {
             Form form = formService.getFormById(formId);
             return HttpResponse.ok(formObjectToMap(form));
-        }
-        catch (RuntimeException e){
-            Map<String , Object> ret = new HashMap<>();
-            ret.put("error" , "form not found");
+        } catch (RuntimeException e) {
+            Map<String, Object> ret = new HashMap<>();
+            ret.put("error", "form not found");
             return HttpResponse.notFound(ret);
         }
     }
 
-    @CrossOrigin("http://localhost:3000")
+    // @CrossOrigin("http://localhost:3000")
+    @CrossOrigin({ "http://localhost:3000", "http://localhost:3001",
+            "http://localhost:3002", "https://employee-work-report-frontend.vercel.app" })
     @Post("/submitForm/{formId}")
-    public HttpResponse<Map<String , Object>> submitForm(@PathVariable("formId") Integer formId,@Body Map<String , Object> requestBody){
+    public HttpResponse<Map<String, Object>> submitForm(@PathVariable("formId") Integer formId,
+            @Body Map<String, Object> requestBody) {
 
-        Map<String , Object> ret = new HashMap<>();
+        Map<String, Object> ret = new HashMap<>();
 
         try {
 
@@ -92,8 +94,7 @@ public class FormController {
                         (Integer) map.get("hours"),
                         (Integer) map.get("minutes"),
                         (String) map.get("description"),
-                        formId
-                );
+                        formId);
                 System.out.println(activity.getForm_id());
                 System.out.println(activity.getId());
                 System.out.println(activity.getHours());
@@ -111,38 +112,38 @@ public class FormController {
             ret.put("msg", "Form submitted successfully.");
 
             return HttpResponse.created(ret);
-        }
-        catch(RuntimeException e){
-            ret.put("msg" , e.getMessage());
+        } catch (RuntimeException e) {
+            ret.put("msg", e.getMessage());
             return HttpResponse.badRequest(ret);
         }
     }
 
-    @CrossOrigin("http://localhost:3000")
+    // @CrossOrigin("http://localhost:3000")
+    @CrossOrigin({ "http://localhost:3000", "http://localhost:3001",
+            "http://localhost:3002", "https://employee-work-report-frontend.vercel.app" })
     @Get("/unsubmitteForms/{user_id}")
-    public HttpResponse<Map<String , Object>>getUnsubmittedFormsByUserId(Integer user_id){
+    public HttpResponse<Map<String, Object>> getUnsubmittedFormsByUserId(Integer user_id) {
         System.out.println("in controller");
-        Map<String , Object> map = new HashMap<>();
+        Map<String, Object> map = new HashMap<>();
         try {
             List<Form> unsubmittedFormList = formService.getUnsubmittedFormsByUserId(user_id);
-            List<Map<String , Object>> ret = new ArrayList<>();
-            for(Form f : unsubmittedFormList){
-                ret.add( formObjectToMap(f) );
+            List<Map<String, Object>> ret = new ArrayList<>();
+            for (Form f : unsubmittedFormList) {
+                ret.add(formObjectToMap(f));
             }
-            map.put("data" , ret);
+            map.put("data", ret);
             return HttpResponse.ok(map);
-        }
-        catch (Exception e){
-            map.put("error" , "Internal Server Error");
+        } catch (Exception e) {
+            map.put("error", "Internal Server Error");
             return HttpResponse.serverError(map);
         }
     }
 
-    private Map<String , Object> formObjectToMap(Form form){
-        Map<String , Object> map = new HashMap<>();
-        map.put("formId" , form.getId());
-        map.put("userId" , form.getUser_id());
-        map.put("date" , Constants.dateToString(form.getDate()));
+    private Map<String, Object> formObjectToMap(Form form) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("formId", form.getId());
+        map.put("userId", form.getUser_id());
+        map.put("date", Constants.dateToString(form.getDate()));
         return map;
     }
 }

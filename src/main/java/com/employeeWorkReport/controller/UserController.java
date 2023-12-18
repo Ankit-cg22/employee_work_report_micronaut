@@ -1,4 +1,5 @@
 package com.employeeWorkReport.controller;
+
 import com.employeeWorkReport.entity.User;
 import com.employeeWorkReport.service.UserService;
 import io.micronaut.http.HttpResponse;
@@ -17,8 +18,9 @@ public class UserController {
         this.userService = userService;
     }
 
-    @CrossOrigin("http://localhost:3000")
     @Post("/register")
+    @CrossOrigin({ "http://localhost:3000", "http://localhost:3001",
+            "http://localhost:3002", "https://employee-work-report-frontend.vercel.app" })
     public HttpResponse<User> registerUser(@Body User user) {
         System.out.println("registering user.");
         return HttpResponse.created(userService.registerUser(user));
@@ -45,7 +47,8 @@ public class UserController {
         return HttpResponse.ok("User Deleted!!");
     }
 
-    @CrossOrigin("http://localhost:3000")
+    @CrossOrigin({ "http://localhost:3000", "http://localhost:3001",
+            "http://localhost:3002", "https://employee-work-report-frontend.vercel.app" })
     @Post("/login")
     public HttpResponse<Map<String, Object>> loginUser(@Body Map<String, Object> map) {
         String email = (String) map.get("emailId");
@@ -62,6 +65,8 @@ public class UserController {
 
     }
 
+    @CrossOrigin({ "http://localhost:3000", "http://localhost:3001",
+            "http://localhost:3002", "https://employee-work-report-frontend.vercel.app" })
     @Get("/makeManager/{user_id}")
     public HttpResponse<Map<String, Object>> makeManager(@PathVariable("user_id") Integer user_id) {
         Map<String, Object> ret = new HashMap<>();
@@ -76,8 +81,11 @@ public class UserController {
         }
     }
 
+    @CrossOrigin({ "http://localhost:3000", "http://localhost:3001",
+            "http://localhost:3002", "https://employee-work-report-frontend.vercel.app" })
     @Get("/assignManager/{user_id}/{manager_id}")
-    public HttpResponse<Map<String, Object>> assignManager(@PathVariable("user_id") Integer user_id, @PathVariable("manager_id") Integer manager_id) {
+    public HttpResponse<Map<String, Object>> assignManager(@PathVariable("user_id") Integer user_id,
+            @PathVariable("manager_id") Integer manager_id) {
         Map<String, Object> ret = new HashMap<>();
 
         try {
@@ -90,15 +98,18 @@ public class UserController {
         }
     }
 
+    @CrossOrigin({ "http://localhost:3000", "http://localhost:3001",
+            "http://localhost:3002", "https://employee-work-report-frontend.vercel.app" })
     @Get("/removeMember/{manager_id}/{user_id}")
-    public HttpResponse<Map<String, Object>> removeMember(@PathVariable("manager_id") Integer manager_id, @PathVariable("user_id") Integer user_id) {
+    public HttpResponse<Map<String, Object>> removeMember(@PathVariable("manager_id") Integer manager_id,
+            @PathVariable("user_id") Integer user_id) {
         Map<String, Object> ret = new HashMap<>();
         User user = userService.getUserById(user_id);
-//        if(user == null){
-//            ret.put("msg" , "No such user.");
-//            return HttpResponse.badRequest(ret);
-//        }
-//        System.out.println(user.getId());
+        // if(user == null){
+        // ret.put("msg" , "No such user.");
+        // return HttpResponse.badRequest(ret);
+        // }
+        // System.out.println(user.getId());
 
         if (user.getManager_id() != manager_id) {
             ret.put("msg", "You are not authorized to perform this task.");
@@ -116,6 +127,8 @@ public class UserController {
         }
     }
 
+    @CrossOrigin({ "http://localhost:3000", "http://localhost:3001",
+            "http://localhost:3002", "https://employee-work-report-frontend.vercel.app" })
     @Get("/getUsersWithNoManager")
     public HttpResponse<Map<String, Object>> getUsersWithNoManager() {
         Map<String, Object> ret = new HashMap<>();
@@ -129,6 +142,8 @@ public class UserController {
         }
     }
 
+    @CrossOrigin({ "http://localhost:3000", "http://localhost:3001",
+            "http://localhost:3002", "https://employee-work-report-frontend.vercel.app" })
     @Get("/getMembersByManagerId/{manager_id}")
     public HttpResponse<Map<String, Object>> getMembersByManagerId(@PathVariable("manager_id") Integer manager_id) {
         Map<String, Object> ret = new HashMap<>();

@@ -2,6 +2,7 @@ micronaut:
   application:
     name: userService
   server:
+    port: 8081
     cors:
       enabled: true
       configurations:
@@ -31,7 +32,7 @@ jpa:
       hibernate:
         hbm2ddl:
           auto: none
-        show_sql : true
+        show_sql: true
     entity-scan:
       packages: "com.employeeWorkReport.entity"
 

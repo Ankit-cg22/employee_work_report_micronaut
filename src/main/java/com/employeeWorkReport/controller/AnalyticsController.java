@@ -10,6 +10,7 @@ import io.micronaut.http.annotation.Body;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.PathVariable;
 import io.micronaut.http.annotation.Post;
+import io.micronaut.http.server.cors.CrossOrigin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -26,6 +27,8 @@ public class AnalyticsController {
         this.userService = userService;
     }
 
+    @CrossOrigin({ "http://localhost:3000", "http://localhost:3001",
+            "http://localhost:3002", "https://employee-work-report-frontend.vercel.app" })
     @Post("/getReport")
     public HttpResponse<Map<String, Object>> getReport(@Body Map<String, Object> requestBody) {
         Map<String, Object> ret = new HashMap<>();
@@ -60,6 +63,8 @@ public class AnalyticsController {
         }
     }
 
+    @CrossOrigin({ "http://localhost:3000", "http://localhost:3001",
+            "http://localhost:3002", "https://employee-work-report-frontend.vercel.app" })
     @Post("/dayWiseDetails/{userId}")
     public HttpResponse<Map<String, Object>> getActivitySummaryForTheDay(@PathVariable Integer userId,
             @Body Map<String, Object> requestBody) {
